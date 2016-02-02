@@ -1,0 +1,23 @@
+﻿@using System.Web.Optimization
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    @Styles.Render("~/Content/css")
+    @Styles.Render("~/MyContent/css")
+    
+</head>
+<body id="bd">
+    <div class="top-baner"></div>
+    <div id="wrapper">
+        @RenderBody()
+    </div>
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/ajax")
+    @Scripts.Render("~/bundles/script")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

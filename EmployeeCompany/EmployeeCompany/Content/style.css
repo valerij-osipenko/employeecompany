@@ -1,0 +1,39 @@
+﻿body#bd{
+    background: url('../Images/subtle-pattern-body-bg.jpg');
+    color: #727272;
+    font-size: 12px;
+}
+body#bd #wrapper {
+    width: 1024px;
+    margin: 0 auto;
+}
+.header-title {
+    font-size: 28px;
+    font-weight: bold;
+    color: #3b3b3b;
+    padding: 0px 0px 0px 40px;
+    margin: 25px 0px 35px 0px;
+    text-shadow: 0 1px 0 #FFFFFF;
+    letter-spacing: -1px;
+    height: 34px;
+    line-height: 34px;
+}
+.main-inner {
+    margin-top: 20px;
+    height: 100%;
+    padding:0 30px 30px;
+    border: 1px solid #fffefe;
+    border-bottom: none;
+    position: relative;
+    background: #f6f3ef;
+    border-radius: 5px;
+    padding: 20px 20px;
+}
+.submenu {
+    margin: 10px 0;
+    padding-right:40px; 
+}
+.top-baner {
+    background: url('../Images/banner-bar-bg.gif') repeat-x #575757;
+    height: 50px;
+}

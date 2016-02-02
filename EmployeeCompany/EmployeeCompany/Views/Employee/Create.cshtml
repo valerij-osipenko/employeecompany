@@ -1,0 +1,37 @@
+﻿@model EmployeeCompany.Models.Employee
+
+@{
+    ViewBag.Title = "Добавление нового сотрудника";
+    Layout = "~/Views/Shared/_LayoutPage.cshtml";
+}
+
+<h2 class ="header-title">Добавление нового сотрудника</h2>
+<div class="main-inner">
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+        
+    @Html.Partial("_EmployeeAddAndUpdate")
+        <div class="row">
+            <div class="col-md-4"></div>
+            <div class="col-md-2">
+                <button type="button" class="btn btn-primary" onclick="location.href='@Url.Action("Index", "Employee")'">
+                    Отмена
+                </button>
+            </div>
+            <div class="col-md-2">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" class="btn btn-primary" value="Добавить" />
+                </div>
+            </div>
+
+            <div class="col-md-4"></div>
+        
+        </div>
+    }
+</div>
+
+    @*@section Scripts {
+            @Scripts.Render("~/bundles/jqueryval")
+        }*@

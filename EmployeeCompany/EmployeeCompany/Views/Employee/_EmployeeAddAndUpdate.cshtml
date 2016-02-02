@@ -1,0 +1,43 @@
+﻿@using System.Web.Optimization
+@model EmployeeCompany.Models.Employee
+
+@{
+    Layout = null;
+}
+
+<div class="form-horizontal">
+    <div class="form-group">
+        @Html.LabelFor(m => m.Name, new { @class = "col-md-3 control-label" })
+        <div class="col-md-5">
+            @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+        </div>
+        <div class="col-md-4"><span style="color: red;">@Html.ValidationMessageFor(model => model.Name)</span></div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Post, new { @class = "col-md-3 control-label" })
+        <div class="col-md-5">
+            @Html.TextBoxFor(m => m.Post, new { @class = "form-control" })
+        </div>
+        <div class="col-md-4"><span style="color: red;">@Html.ValidationMessageFor(model => model.Post)</span></div>
+
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.StatusTypeId, new { @class = "col-md-3 control-label" })
+        <div class="col-md-5">
+            @Html.DropDownListFor(model => model.StatusTypeId, ViewBag.Status as SelectList)
+        </div>
+        <div class="col-md-4">@Html.ValidationMessageFor(model => model.StatusTypeId)</div>
+    </div>
+
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Salary, new { @class = "col-md-3 control-label" })
+        <div class="col-md-5">
+            @Html.TextBoxFor(model => model.Salary, new { @class = "form-control" })
+        </div>
+        <div class="col-md-4"><span style="color: red;">@Html.ValidationMessageFor(model => model.Salary)</span></div>
+    </div>
+</div>
+
+
