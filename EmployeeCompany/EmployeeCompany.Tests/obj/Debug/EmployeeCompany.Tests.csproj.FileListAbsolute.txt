@@ -65,3 +65,5 @@ D:\ProgrammingMVC\Git\employeecompany\EmployeeCompany\EmployeeCompany.Tests\bin\
 D:\ProgrammingMVC\Git\employeecompany\EmployeeCompany\EmployeeCompany.Tests\obj\Debug\EmployeeCompany.Tests.csprojResolveAssemblyReference.cache
 D:\ProgrammingMVC\Git\employeecompany\EmployeeCompany\EmployeeCompany.Tests\obj\Debug\EmployeeCompany.Tests.dll
 D:\ProgrammingMVC\Git\employeecompany\EmployeeCompany\EmployeeCompany.Tests\obj\Debug\EmployeeCompany.Tests.pdb
+D:\ProgrammingMVC\Git\employeecompany\EmployeeCompany\EmployeeCompany.Tests\bin\Debug\EntityFramework.SqlServer.dll
+D:\ProgrammingMVC\Git\employeecompany\EmployeeCompany\EmployeeCompany.Tests\bin\Debug\EntityFramework.SqlServer.xml

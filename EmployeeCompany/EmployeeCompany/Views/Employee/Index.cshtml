@@ -11,95 +11,100 @@
     <div class="submenu">
         <div class="row">
             <div class="col-md-2">
-                <button type="button" class="btn btn-primary btn-sm" onclick="location.href='@Url.Action("SaveFileEmployee", "Employee")'">Сохранить отчет</button>
+                @if (Model.Employee.Any()) { 
+                    <button type="button" class="btn btn-primary btn-sm" onclick="location.href='@Url.Action("SaveFileEmployee", "Employee")'">Сохранить отчет</button>
+                }
             </div>
             <div class="col-md-6"></div>
             <div class="col-md-2">
                 <div class="btn-group">
-                    <button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown">
-                        Фильтр по статусу <span class="caret"></span>
-                    </button>
-                    <ul class="dropdown-menu">
-                        @{
-                            foreach (var statusItem in Model.StatusList)
-                            {
-                                <li>
-                                    @Html.ActionLink(statusItem.Text, "Index", new { statustype = statusItem.Value })
-                                </li>
+                    @if (Model.Employee.Any()) {
+                        <button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown">
+                            Фильтр по статусу <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu">
+                            @{
+                                foreach (var statusItem in Model.StatusList) {
+                                    <li>
+                                        @Html.ActionLink(statusItem.Text, "Index", new {statustype = statusItem.Value})
+                                    </li>
+                                }
                             }
-                        }
-                    </ul>
+                        </ul>
+                    }
                 </div>
-                </div>
+            </div>
             <div class="col-md-2">
                 <button type="button" class="btn btn-primary btn-sm" onclick="location.href='@Url.Action("Create", "Employee")'">Добавить сотрудника</button>
             </div>
         </div>
     </div>
-    <div class="row" style="margin:10px 0">
+    <div class="row" style="margin: 10px 0">
         <div class="col-md-12 text-right">Всего записей - <span class="badge">@Model.PageInfo.TotalItems</span></div>
     </div>
-    <div class="row">
-        <div class="col-md-12">
-            <table class="table table-striped table-hover table-condensed table-bordered">
-                <thead>
-                    <tr>
-                        <th class="active text-center">
-                            @Html.DisplayNameFor(model => Model.Employee.FirstOrDefault().Name)
-                        </th>
-                        <th class="active text-center">
-                            @Html.DisplayNameFor(model => Model.Employee.FirstOrDefault().Post)
-                        </th>
-                        <th class="active text-center">
-                            @Html.DisplayNameFor(model => Model.Employee.FirstOrDefault().StatusTypeId)
-                        </th>
-                        <th class="active text-center">
-                            @Html.DisplayNameFor(model => Model.Employee.FirstOrDefault().Salary)
-                        </th>
-                        <th class="active text-center"></th>
-                        <th class="active text-center"></th>
-                    </tr>
-                </thead>
-                @foreach (var item in Model.Employee)
-                {
-                    <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Name)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Post)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.StatusType.StatusName)
-                        </td>
-                        <td class="text-right">
-                            @Html.DisplayFor(modelItem => item.Salary)
-                        </td>
-                        <td class="text-right">
-                            <button type="button" class="btn btn-info btn-xs" onclick="location.href='@Url.Action("Edit", "Employee", new { id = item.Id })'">
-                                Изменить
-                            </button>
-                        </td>
-                        <td class="text-right">
-                            <button type="button" class="btn btn-info btn-xs" onclick="location.href='@Url.Action("Delete", "Employee", new { id = item.Id })'">
-                                Удалить
-                            </button>
-                        </td>
-                    </tr>
-                }
+    @if (Model.Employee.Any()) {
+        
+        <div class="row">
+            <div class="col-md-12">
+                <table class="table table-striped table-hover table-condensed table-bordered">
+                    <thead>
+                        <tr>
+                            <th class="active text-center">
+                                @Html.DisplayNameFor(model => Model.Employee.FirstOrDefault().Name)
+                            </th>
+                            <th class="active text-center">
+                                @Html.DisplayNameFor(model => Model.Employee.FirstOrDefault().Post)
+                            </th>
+                            <th class="active text-center">
+                                @Html.DisplayNameFor(model => Model.Employee.FirstOrDefault().StatusTypeId)
+                            </th>
+                            <th class="active text-center">
+                                @Html.DisplayNameFor(model => Model.Employee.FirstOrDefault().Salary)
+                            </th>
+                            <th class="active text-center"></th>
+                            <th class="active text-center"></th>
+                        </tr>
+                    </thead>
+                    @foreach (var item in Model.Employee) {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Name)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Post)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.StatusType.StatusName)
+                            </td>
+                            <td class="text-right">
+                                @string.Format("{0:F}",item.Salary)
+                            </td>
+                            <td class="text-right">
+                                <button type="button" class="btn btn-info btn-xs" onclick=" location.href = '@Url.Action("Edit", "Employee", new {id = item.Id})' ">
+                                    Изменить
+                                </button>
+                            </td>
+                            <td class="text-right">
+                                <button type="button" class="btn btn-info btn-xs" onclick=" location.href = '@Url.Action("Delete", "Employee", new {id = item.Id})' ">
+                                    Удалить
+                                </button>
+                            </td>
+                        </tr>
+                    }
 
-            </table>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-8"></div>
-        <div class="col-md-4" style="align-content: center">
-            <div class="btn-group">
-                <input type="hidden" value="@Model.PageInfo.StatusInfo" id="statusId"/>
-                @Html.PageLinks(Model.PageInfo, x => Url.Action("Index", new { page = x }))
+                </table>
             </div>
         </div>
-    </div>
+        <div class="row">
+            <div class="col-md-8"></div>
+            <div class="col-md-4" style="align-content: center">
+                <div class="btn-group">
+                    <input type="hidden" value="@Model.PageInfo.StatusInfo" id="statusId"/>
+                    @Html.PageLinks(Model.PageInfo, x => Url.Action("Index", new {page = x}))
+                </div>
+            </div>
+        </div>
+    }
     
     
 </div>
