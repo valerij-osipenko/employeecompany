@@ -1,10 +1,11 @@
-﻿using System.Web;
-using System.Web.Optimization;
+﻿using System.Web.Optimization;
 
 namespace EmployeeCompany.App_Start {
     public class BundleConfig {
         public static void RegisterBundles(BundleCollection bundles) {
-            bundles.Add(new ScriptBundle("~/bundles/jquery").Include("~/Scripts/jquery-2.2.0.min.js"));
+            bundles.Add(new ScriptBundle("~/bundles/jquery").Include("~/Scripts/jquery-2.2.0.min.js",
+                                                                        "~/Scripts/jquery.validate.min.js"));
+            //bundles.Add(new ScriptBundle("~/bundles/jqueryvalidation").Include("~/Script/jquery.validate.min.js"));
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include("~/Scripts/bootstrap.min.js"));
             bundles.Add(new ScriptBundle("~/bundles/ajax").Include("~/Scripts/jquery.unobtrusive-ajax.js"));
             bundles.Add(new ScriptBundle("~/bundles/script").Include("~/Scripts/script.js"));
