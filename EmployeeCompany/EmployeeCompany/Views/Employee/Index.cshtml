@@ -1,5 +1,5 @@
 ﻿@using EmployeeCompany.Helper
-@model EmployeeCompany.Helper.EmployeeModel
+@model EmployeeModel
 
 @{
     ViewBag.Title = "Список сотрудников";
@@ -15,7 +15,10 @@
                     <button type="button" class="btn btn-primary btn-sm" onclick="location.href='@Url.Action("SaveFileEmployee", "Employee")'">Сохранить отчет</button>
                 }
             </div>
-            <div class="col-md-6"></div>
+            <div class="col-md-6">
+                <input type="text" name="name" data-autocomplete-source='@Url.Action("AutocompleteSearch", "Employee")' />
+                <input type="submit" value="Поиск" />
+            </div>
             <div class="col-md-2">
                 <div class="btn-group">
                     @if (Model.Employee.Any()) {
@@ -80,12 +83,12 @@
                                 @string.Format("{0:F}",item.Salary)
                             </td>
                             <td class="text-right">
-                                <button type="button" class="btn btn-info btn-xs" onclick=" location.href = '@Url.Action("Edit", "Employee", new {id = item.Id})' ">
+                                <button type="button" class="btn btn-info btn-xs" onclick="location.href = '@Url.Action("Edit", "Employee", new {id = item.Id})' ">
                                     Изменить
                                 </button>
                             </td>
                             <td class="text-right">
-                                <button type="button" class="btn btn-info btn-xs" onclick=" location.href = '@Url.Action("Delete", "Employee", new {id = item.Id})' ">
+                                <button type="button" class="btn btn-info btn-xs" onclick="location.href = '@Url.Action("Delete", "Employee", new {id = item.Id})' ">
                                     Удалить
                                 </button>
                             </td>

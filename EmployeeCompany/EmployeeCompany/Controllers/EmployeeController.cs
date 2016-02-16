@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq;
 using System.Web.Mvc;
+using EmployeeCompany.DbProvider;
 using EmployeeCompany.Helper;
 using EmployeeCompany.Models;
 
@@ -10,8 +10,15 @@ namespace EmployeeCompany.Controllers {
         private const string NameAll = "Все";
         private const int PageSize = 20;
         private const int FirstPage = 1;
-        //
-        // GET: /Employee/
+
+        private IRepository _repo;
+
+        public EmployeeController() : this(new DbRepository()) { }
+
+        public EmployeeController(IRepository repository) {
+            _repo = repository;
+        }
+
         [HttpGet]
         public ActionResult Index(string statustype = "0", int page = FirstPage) {
             int statusId = int.Parse(statustype);
@@ -21,81 +28,64 @@ namespace EmployeeCompany.Controllers {
 
         
         private EmployeeModel GetModelForIndex(int page, int? statusId = null) {
-            using (var db = new EmployeeContext()) {
-                var query = statusId == null || statusId == 0 ? db.Employees.Include(st => st.StatusType).ToList() : 
-                    db.Employees.Where(e => e.StatusTypeId == statusId).ToList();
-                var statusView = GetStatusList(db.StatusTypes.ToList(), true);
-                var allEmployee = query.Skip((page - 1)*PageSize).Take(PageSize);
-                var pageInfo = new PageInfo() { PageNumber = page, TotalItems = query.Count(), PageSize = PageSize, StatusInfo = statusId};
-                var model = new EmployeeModel { Employee = allEmployee, StatusList = statusView, PageInfo = pageInfo};
-                return model;
-            }
+            var query = statusId == null || statusId == 0 ? _repo.ListWithoutStatus() : 
+                        _repo.List().Where(e => e.StatusTypeId == statusId).ToList();
+            var statusView = GetStatusList(_repo.ListTypes(), true);
+            var enumerable = query as Employee[] ?? query.ToArray();
+            var allEmployee = enumerable.Skip((page - 1)*PageSize).Take(PageSize);
+            var pageInfo = new PageInfo() { PageNumber = page, TotalItems = enumerable.Count(), PageSize = PageSize, StatusInfo = statusId};
+            var model = new EmployeeModel { Employee = allEmployee, StatusList = statusView, PageInfo = pageInfo};
+            return model;
+        }
+
+        public ActionResult AutoCompleteSearch(string term) {
+            var models = _repo.List().Where(a => a.Post.Contains(term)).Select(a => new { Value = a.Post }).Distinct().ToList();
+            return Json(models, JsonRequestBehavior.AllowGet);
         }
 
         [HttpGet]
         public ActionResult Create() {
-            using (var db = new EmployeeContext()) {
-                ViewBag.Status = GetStatusList(db.StatusTypes.ToList());
-                return View();
-            }
+           ViewBag.Status = GetStatusList(_repo.ListTypes().ToList());
+           return View();
         }
 
         [HttpPost]
         public ActionResult Create(Employee employee) {
-            
-            using (var db = new EmployeeContext()) {
-                if (!ModelState.IsValid) {
-                    ViewBag.Status = GetStatusList(db.StatusTypes.ToList());
-                    return View(employee);
-                }
-                db.Employees.Add(employee);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+            if (!ModelState.IsValid) {
+                ViewBag.Status = GetStatusList(_repo.ListTypes().ToList());
+                return View(employee);
             }
+            _repo.Save(employee);
+            return RedirectToAction("Index");
         }
 
         [HttpGet]
         public ActionResult Edit(int id) {
-            using (var db = new EmployeeContext()) {
-                var employee = db.Employees.Find(id);
-                ViewBag.Status = GetStatusList(db.StatusTypes.ToList(), false, employee);
-                return View(employee);
-            }
+            var employee = _repo.GetEmployee(id);
+            ViewBag.Status = GetStatusList(_repo.ListTypes(), false, employee);
+            return View(employee);
         }
 
         [HttpPost]
         public ActionResult Edit(Employee employee) {
-            using (var db = new EmployeeContext()) {
-                if (!ModelState.IsValid) {
-                    ViewBag.Status = GetStatusList(db.StatusTypes.ToList());
-                    return View(employee);
-                }
-                db.Entry(employee).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+            if (!ModelState.IsValid) {
+                ViewBag.Status = GetStatusList(_repo.ListTypes());
+                return View(employee);
             }
+            _repo.EditEmployee(employee); 
+            return RedirectToAction("Index");
         }
 
         public ActionResult Delete(int id) {
-            using (var db = new EmployeeContext()) {
-                var employee = db.Employees.Find(id);
-                if(employee == null)
-                    return RedirectToAction("Index");
-                db.Entry(employee).State = EntityState.Deleted;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
+            return _repo.DeleteEmployee(id) ? RedirectToAction("Index") : RedirectToAction("Index");
         }
 
         public FileContentResult SaveFileEmployee() {
-            using (var db = new EmployeeContext()) {
-                var employees = db.Employees.Where(x => x.StatusTypeId == 1).ToList();
-                var fileEmployee = FileHelper.ParseTemplate(employees);
-                var bytes = new byte[fileEmployee.Length * sizeof(char)];
-                System.Buffer.BlockCopy(fileEmployee.ToCharArray(), 0, bytes, 0, bytes.Length);
-                return File(bytes, "application/txt", "Отчет по зарплатам.txt");
-            }
-
+            var employees = _repo.List().Where(x => x.StatusTypeId == 1).ToList();
+            var fileEmployee = FileHelper.ParseTemplate(employees);
+            var bytes = new byte[fileEmployee.Length * sizeof(char)];
+            System.Buffer.BlockCopy(fileEmployee.ToCharArray(), 0, bytes, 0, bytes.Length);
+            return File(bytes, "application/txt", "Отчет по зарплатам.txt");
         }
 
         private SelectList GetStatusList(List<StatusType> status, bool isFilter = false, Employee employee = null) {

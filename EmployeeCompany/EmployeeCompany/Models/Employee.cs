@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Web.Mvc;
 
 namespace EmployeeCompany.Models {
     public class Employee {
@@ -18,7 +19,6 @@ namespace EmployeeCompany.Models {
 
         [Required(ErrorMessage = "Введите размер заработной платы")]
         [Display(Name = "Заработная плата")]
-        //[RegularExpression(@"\d", ErrorMessage = "Должны содержаться только цифры")]
         public double Salary { get; set; }
 
     }
