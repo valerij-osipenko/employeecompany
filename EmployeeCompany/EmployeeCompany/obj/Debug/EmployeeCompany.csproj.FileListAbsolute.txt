@@ -72,3 +72,10 @@ D:\ProgrammingMVC\Git\employeecompany\EmployeeCompany\EmployeeCompany\bin\System
 D:\ProgrammingMVC\Git\employeecompany\EmployeeCompany\EmployeeCompany\obj\Debug\EmployeeCompany.csprojResolveAssemblyReference.cache
 D:\ProgrammingMVC\Git\employeecompany\EmployeeCompany\EmployeeCompany\obj\Debug\EmployeeCompany.dll
 D:\ProgrammingMVC\Git\employeecompany\EmployeeCompany\EmployeeCompany\obj\Debug\EmployeeCompany.pdb
+D:\ProgrammingMVC\Git\employeecompany\EmployeeCompany\EmployeeCompany\bin\Ninject.dll
+D:\ProgrammingMVC\Git\employeecompany\EmployeeCompany\EmployeeCompany\bin\Ninject.Web.Common.dll
+D:\ProgrammingMVC\Git\employeecompany\EmployeeCompany\EmployeeCompany\bin\Ninject.Web.Mvc.dll
+D:\ProgrammingMVC\Git\employeecompany\EmployeeCompany\EmployeeCompany\bin\WebActivatorEx.dll
+D:\ProgrammingMVC\Git\employeecompany\EmployeeCompany\EmployeeCompany\bin\Ninject.xml
+D:\ProgrammingMVC\Git\employeecompany\EmployeeCompany\EmployeeCompany\bin\Ninject.Web.Common.xml
+D:\ProgrammingMVC\Git\employeecompany\EmployeeCompany\EmployeeCompany\bin\Ninject.Web.Mvc.xml

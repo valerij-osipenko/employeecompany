@@ -4,6 +4,7 @@ using System.Web.Mvc;
 using EmployeeCompany.DbProvider;
 using EmployeeCompany.Helper;
 using EmployeeCompany.Models;
+using Ninject;
 
 namespace EmployeeCompany.Controllers {
     public class EmployeeController : Controller {
@@ -13,10 +14,10 @@ namespace EmployeeCompany.Controllers {
 
         private IRepository _repo;
 
-        public EmployeeController() : this(new DbRepository()) { }
-
-        public EmployeeController(IRepository repository) {
-            _repo = repository;
+        public EmployeeController() {
+            IKernel ninjektKernel = new StandardKernel();
+            ninjektKernel.Bind<IRepository>().To<DbRepository>();
+            _repo = ninjektKernel.Get<IRepository>();
         }
 
         [HttpGet]
